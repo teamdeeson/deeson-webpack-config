@@ -52,12 +52,7 @@ const config = {
         }
       },
       {
-        test: /.*\/components\/.*\.scss$/,
-        loader: extractCSS.extract(['css?modules&localIdentName=[name]__[local]', 'sass'])
-      },
-      {
         test: /\.scss$/,
-        exclude: /components/,
         loader: extractCSS.extract(['css', 'sass'])
       },
       {
