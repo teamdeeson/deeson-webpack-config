@@ -6,10 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "bin": {
     "frontend-serve": "./bin/start.sh",
     "deeson-router-php": "./bin/router.php"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:deesongroup6346/deeson-webpack-config-starter.git"
   },
   "dependencies": {
     "babel-core": "^6.21.0",
