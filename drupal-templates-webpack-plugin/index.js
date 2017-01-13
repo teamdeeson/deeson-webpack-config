@@ -38,14 +38,14 @@ function deeson_tpl_component_templates($assetPath = NULL) {
   if (!$assetPath) {
     $assetPath = str_replace(DRUPAL_ROOT, '', dirname(__FILE__));
   }
-  return [ ${strungTpls.join(', ')}, ];
+  return [ ${strungTpls.join(', ')} ];
 }
 
 function deeson_twig_component_templates($assetPath = NULL) {
   if (!$assetPath) {
     $assetPath = str_replace(DRUPAL_ROOT, '', dirname(__FILE__));
   }
-  return [ ${strungTwigs.join(', ')}, ];
+  return [ ${strungTwigs.join(', ')} ];
 }`
     );
 
