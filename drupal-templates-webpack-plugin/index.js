@@ -1,29 +1,28 @@
-'use strict';
+/* eslint no-param-reassign: ["error", { "props": false }] */
 
 const path = require('path');
 const RawSource = require('webpack-sources').RawSource;
 
-function DrupalHookThemeTemplatesPlugin(options) {
+function DrupalHookThemeTemplatesPlugin() {
 }
 
-DrupalHookThemeTemplatesPlugin.prototype.apply = function(compiler) {
-  compiler.plugin('emit', function(compilation, callback) {
-
+DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
+  compiler.plugin('emit', (compilation, callback) => {
     const tpls = [];
     const twigs = [];
 
-    compilation.modules.forEach(function(module) {
+    compilation.modules.forEach((module) => {
       if (module.resource) {
         const file = path.basename(module.resource);
-        const template = file.replace(/\.(tpl\.php|html\.twig)$/, "");
-        const name = template.replace(/-/, "_");
+        const template = file.replace(/\.(tpl\.php|html\.twig)$/, '');
+        const name = template.replace(/-/g, '_');
 
         if (module.resource.match(/(tpl\.php)$/)) {
-          tpls.push({template, name});
+          tpls.push({ template, name });
         }
 
         if (module.resource.match(/(html\.twig)$/)) {
-          twigs.push({template, name});
+          twigs.push({ template, name });
         }
       }
     });
@@ -46,8 +45,7 @@ function deeson_twig_component_templates($assetPath = NULL) {
     $assetPath = str_replace(DRUPAL_ROOT, '', dirname(__FILE__));
   }
   return [ ${strungTwigs.join(', ')} ];
-}`
-    );
+}`);
 
     callback();
   });

@@ -1,7 +1,3 @@
-'use strict';
-
-const webpack = require('webpack');
-
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const DrupalTemplatePlugin = require('./drupal-templates-webpack-plugin');
@@ -12,13 +8,13 @@ const path = require('path');
 
 const config = {
   entry: {
-    app: ['./src/app.js']
+    app: ['./src/app.js'],
   },
   devtool: '#source-map',
   output: {
     path: path.resolve(process.cwd(), 'assets'),
     publicPath: 'needs-to-be-set',
-    filename: 'app.js'
+    filename: 'app.js',
   },
   devServer: {
     inline: true,
@@ -31,15 +27,15 @@ const config = {
       hash: false,
       timings: false,
       chunks: false,
-      chunkModules: false
+      chunkModules: false,
     },
     outputPath: path.join(process.cwd(), 'assets'),
     proxy: {
-      '*' : {
+      '*': {
         target: 'http://localhost:3000',
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
   module: {
     loaders: [
@@ -48,12 +44,12 @@ const config = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
-        }
+          presets: ['es2015'],
+        },
       },
       {
         test: /\.scss$/,
-        loader: extractCSS.extract(['css', 'sass'])
+        loader: extractCSS.extract(['css', 'sass']),
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -64,16 +60,16 @@ const config = {
       },
       { test: /\.(php|twig)$/, loaders: ['file?name=components/[name].[ext]'] },
 
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-			{ test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },
-			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-    ]
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
+    ],
   },
   plugins: [
-    new WriteFilePlugin({log: false}),
+    new WriteFilePlugin({ log: false }),
     new DrupalTemplatePlugin(),
-    extractCSS
-  ]
-}
+    extractCSS,
+  ],
+};
 
 module.exports = config;
