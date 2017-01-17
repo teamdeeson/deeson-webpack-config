@@ -18,7 +18,8 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
 
     $content = $content['content'];
     $path = str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $n))));
-    include '../src/components/'.$path.'/'.$n.'.tpl.php';
+    $name = str_replace('_', '-', $n);
+    include '../src/components/'.$path.'/'.$name.'.tpl.php';
 
     $out = ob_get_contents();
     ob_end_clean();
