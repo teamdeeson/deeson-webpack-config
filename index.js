@@ -1,6 +1,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const DrupalTemplatePlugin = require('./drupal-templates-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const extractCSS = new ExtractTextPlugin('[name].css');
 
@@ -49,7 +50,7 @@ const config = {
       },
       {
         test: /\.scss$/,
-        loader: extractCSS.extract(['css', 'sass']),
+        loader: extractCSS.extract(['css-loader', 'postcss-loader', 'sass-loader']),
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -70,6 +71,7 @@ const config = {
     new DrupalTemplatePlugin(),
     extractCSS,
   ],
+  postcss: () => [autoprefixer],
 };
 
 module.exports = config;
