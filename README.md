@@ -1,9 +1,7 @@
+```
 todo:
 
 install instructions.
-
-postcss and assorted sensible defaults.
-
 
 
 notes:
@@ -34,3 +32,5 @@ component-libraries:
   components:
     paths:
       - assets/components
+
+```
