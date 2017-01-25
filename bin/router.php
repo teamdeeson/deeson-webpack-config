@@ -3,7 +3,7 @@
 if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
   require_once './vendor/autoload.php';
 
-  $loader = new Twig_Loader_Filesystem('./dist/');
+  $loader = new Twig_Loader_Filesystem('./pages/');
   $loader->addPath('./assets/components', 'components');
   $twig = new Twig_Environment($loader, [
     'debug' => true
