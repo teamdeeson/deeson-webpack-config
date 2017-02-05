@@ -30,6 +30,7 @@ DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
     const entry = t => `"${t.name}" => ["template" => "${t.template}", "path" => $assetPath . "/components", "variables" => ["content" => []] ]`;
     const strungTpls = tpls.map(entry);
     const strungTwigs = twigs.map(entry);
+    const d8AssetPath = compiler.options.output.publicPath.replace(/^\/(.*)\/$/, '$1');
 
     compilation.assets['component-templates.php'] = new RawSource(
       `<?php /* Generated file, dont monkey. */
@@ -40,10 +41,7 @@ function deeson_tpl_component_templates($assetPath = NULL) {
   return [ ${strungTpls.join(', ')} ];
 }
 
-function deeson_twig_component_templates($assetPath = NULL) {
-  if (!$assetPath) {
-    $assetPath = str_replace(DRUPAL_ROOT, '', dirname(__FILE__));
-  }
+function deeson_twig_component_templates($assetPath = '${d8AssetPath}') {
   return [ ${strungTwigs.join(', ')} ];
 }`);
 
