@@ -14,20 +14,21 @@ DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
     compilation.modules.forEach((module) => {
       if (module.resource) {
         const file = path.basename(module.resource);
+        const cpath = path.dirname(module.resource.replace(/.*\/src\//, '/'));
         const template = file.replace(/\.(tpl\.php|html\.twig)$/, '');
         const name = template.replace(/-/g, '_');
 
         if (module.resource.match(/(tpl\.php)$/)) {
-          tpls.push({ template, name });
+          tpls.push({ template, name, cpath });
         }
 
         if (module.resource.match(/(html\.twig)$/)) {
-          twigs.push({ template, name });
+          twigs.push({ template, name, cpath });
         }
       }
     });
 
-    const entry = t => `"${t.name}" => ["template" => "${t.template}", "path" => $assetPath . "/components", "variables" => ["content" => []] ]`;
+    const entry = t => `"${t.name}" => ["template" => "${t.template}", "path" => $assetPath . "${t.cpath}", "variables" => ["content" => []] ]`;
     const strungTpls = tpls.map(entry);
     const strungTwigs = twigs.map(entry);
     const d8AssetPath = compiler.options.output.publicPath.replace(/^\/(.*)\/$/, '$1');

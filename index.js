@@ -59,7 +59,7 @@ const config = {
           'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}',
         ],
       },
-      { test: /\.(tpl\.php|html\.twig)$/, loaders: ['file?name=components/[name].[ext]'] },
+      { test: /\.(tpl\.php|html\.twig)$/, loaders: ['file?regExp=.*\/src\/(.*)&name=[1]'] },
 
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000' },
