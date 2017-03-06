@@ -13,13 +13,13 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
   echo $twig->render(basename($_SERVER['SCRIPT_FILENAME']));
 } else {
   function render($t) { return $t; }
-  function theme($n, $content) {
+  function theme($n, $content = ['content'=>[]]) {
     ob_start();
 
     $content = $content['content'];
     $path = str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $n))));
     $name = str_replace('_', '-', $n);
-    include '../src/components/'.$path.'/'.$name.'.tpl.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/src/components/'.$path.'/'.$name.'.tpl.php';
 
     $out = ob_get_contents();
     ob_end_clean();
