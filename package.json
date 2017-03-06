@@ -9,7 +9,8 @@
   },
   "bin": {
     "frontend-serve": "./bin/start.sh",
-    "deeson-router-php": "./bin/router.php"
+    "deeson-router-php": "./bin/router.php",
+    "deeson-generate-component": "./bin/generate.sh"
   },
   "repository": {
     "type": "git",
