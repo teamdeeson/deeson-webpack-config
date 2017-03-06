@@ -44,7 +44,7 @@ trap "kill -KILL $PHP $WP > /dev/null 2>&1" EXIT
 if ! lsof -t -p $PHP || ! lsof -t -p $WP; then
   echo -e '\033[1m\033[31mSomething failed to start, take a note of the errors above and give james a shout.\033[0m';
 else
-  echo -e '\n\033[32m\033[1mEverything up and running at http://localhost:8080/<your page> -- Ctrl-C to quit\033[0m\n';
+  echo -e '\n\033[32m\033[1mEverything up and running at https://localhost:8080/<your page> -- Ctrl-C to quit\033[0m\n';
 fi
 
 wait $PHP $WP > /dev/null 2>&1
