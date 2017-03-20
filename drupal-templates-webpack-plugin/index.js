@@ -3,7 +3,8 @@
 const path = require('path');
 const RawSource = require('webpack-sources').RawSource;
 
-function DrupalHookThemeTemplatesPlugin() {
+function DrupalHookThemeTemplatesPlugin(options = {}) {
+  this.ignoreRegex = options.ignore || /[^.*]/;
 }
 
 DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
@@ -11,8 +12,12 @@ DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
     const tpls = [];
     const twigs = [];
 
+    Object.keys(compilation.assets).forEach((k) => {
+      if (this.ignoreRegex.test(k)) delete compilation.assets[k];
+    });
+
     compilation.modules.forEach((module) => {
-      if (module.resource) {
+      if (module.resource && !this.ignoreRegex.test(module.resource)) {
         const file = path.basename(module.resource);
         const cpath = path.dirname(module.resource.replace(/.*\/src\//, '/'));
         const template = file.replace(/\.(tpl\.php|html\.twig)$/, '');

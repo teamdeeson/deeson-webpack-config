@@ -89,7 +89,7 @@ const config = {
   },
   plugins: [
     new WriteFilePlugin({ log: false }),
-    new DrupalTemplatePlugin(),
+    new DrupalTemplatePlugin({ ignore: /.*pages.*/ }),
     new ExtractTextPlugin('[name].css'),
     new webpack.LoaderOptionsPlugin({ options: { postcss: [autoprefixer] } }),
   ],
