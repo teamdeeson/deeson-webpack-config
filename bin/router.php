@@ -20,12 +20,23 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
 } else {
   function render($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
-    $path = str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $n))));
     $name = str_replace('_', '-', $n);
-    $file = $_SERVER['DOCUMENT_ROOT'] . '/src/components/'.$path.'/'.$name.'.tpl.php';
 
-    if (!file_exists($file)) {
+    $directory = new RecursiveDirectoryIterator($_SERVER['DOCUMENT_ROOT'] . '/src/components/');
+    $iterator = new RecursiveIteratorIterator($directory);
+    $regex = new RegexIterator($iterator, '/.*\/' . $name . '\.tpl.php$/i', RecursiveRegexIterator::GET_MATCH);
+    $files = iterator_to_array($regex);
+
+    if (empty($files)) {
       return "<pre style='background-color: #e2e2e2; padding: 0.5em; color: #666'>missing component template '$n'</pre>";
+    } else if (count($files) > 1) {
+      $r = "<pre style='background-color: #e2e2e2; padding: 0.5em; color: #666'>multiple matches for component template '$n', there can be only one.\n";
+      foreach ($files as $k => $v) {
+        $r .= $k . "\n";
+      }
+      return $r . '</pre>';
+    } else {
+      $file = array_pop($files);
     }
 
     ob_start();
