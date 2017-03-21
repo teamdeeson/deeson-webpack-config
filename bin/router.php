@@ -36,6 +36,7 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
       }
       return $r . '</pre>';
     } else {
+      $files = array_keys($files);
       $file = array_pop($files);
     }
 
