@@ -1,4 +1,9 @@
 <?php
+$sapi = php_sapi_name();
+
+if ($sapi === 'cli') {
+  $_SERVER['DOCUMENT_ROOT'] = getcwd() . '/';
+}
 
 if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'])) {
   header("HTTP/1.0 404 Not Found");
