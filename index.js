@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const DrupalTemplatePlugin = require('./drupal-templates-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
 process.noDeprecation = true;
 
@@ -52,17 +51,18 @@ const config = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'postcss-loader', 'sass-loader'],
-        }),
+        loader: ExtractTextPlugin.extract([
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [ require('autoprefixer') ] } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+        ]),
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'postcss-loader'],
-        }),
+        use: ExtractTextPlugin.extract([
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [ require('autoprefixer') ] } },
+        ]),
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -70,7 +70,7 @@ const config = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 1000,
               hash: 'sha512',
               digest: 'hex',
               name: '[hash].[ext]',
@@ -98,7 +98,6 @@ const config = {
     new WriteFilePlugin({ log: false }),
     new DrupalTemplatePlugin({ ignore: /.*pages.*/ }),
     new ExtractTextPlugin('[name].css'),
-    new webpack.LoaderOptionsPlugin({ options: { postcss: [autoprefixer] } }),
   ],
 };
 
