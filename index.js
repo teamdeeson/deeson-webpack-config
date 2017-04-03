@@ -47,7 +47,7 @@ const config = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         options: {
-          presets: ['es2015'],
+          presets: ['env'],
         },
       },
       {
@@ -55,6 +55,13 @@ const config = {
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'postcss-loader', 'sass-loader'],
+        }),
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader'],
         }),
       },
       {
@@ -84,7 +91,7 @@ const config = {
 
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       { test: /\.(woff|woff2)$/, loader: 'url-loader', options: { prefix: 'font/', limit: 5000 } },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/octet-stream' } },
+      { test: /\.[ot]tf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/octet-stream' } },
     ],
   },
   plugins: [
