@@ -33,7 +33,12 @@ DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
       }
     });
 
-    const entry = t => `"${t.name}" => ["template" => "${t.template}", "path" => $assetPath . "${t.cpath}", "variables" => ["content" => []] ]`;
+    const entry = t => `
+    "${t.name}" => [
+      "template" => "${t.template}",
+      "path" => $assetPath . "${t.cpath}",
+      "variables" => ["content" => []]
+    ]`;
     const strungTpls = tpls.map(entry);
     const strungTwigs = twigs.map(entry);
     const assetPath = compiler.options.output.publicPath.replace(/^\/(.*)\/$/, '$1');
@@ -41,11 +46,13 @@ DrupalHookThemeTemplatesPlugin.prototype.apply = function apply(compiler) {
     compilation.assets['component-templates.php'] = new RawSource(
       `<?php /* Generated file, dont monkey. */
 function deeson_tpl_component_templates($assetPath = '${assetPath}') {
-  return [ ${strungTpls.join(', ')} ];
+  return [ ${strungTpls.join(', ')}
+  ];
 }
 
 function deeson_twig_component_templates($assetPath = '${assetPath}') {
-  return [ ${strungTwigs.join(', ')} ];
+  return [ ${strungTwigs.join(', ')}
+  ];
 }`);
 
     callback();
