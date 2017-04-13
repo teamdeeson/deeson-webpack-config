@@ -21,6 +21,10 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
   ]);
   $twig->addExtension(new Twig_Extension_Debug());
 
+  $twig->addFilter(new Twig_Filter('*', function($name, $input) {
+    return $input;
+  }));
+
   echo $twig->render(basename($_SERVER['SCRIPT_FILENAME']));
 } else {
   function render($t) { return $t; }
