@@ -44,12 +44,15 @@ if (preg_match('/\.twig(\.html)?$/', $page)) {
   ]);
   $twig->addExtension(new Twig_Extension_Debug());
 
+  $twig->addFilter(new Twig_Filter('*', function($name, $input) {
+    return $input;
+  }));
+
   echo $twig->render(basename($docroot . $page), [
     'directory' => rtrim($baseUrl, '/'),
   ]);
 }
 elseif (preg_match('/\.php(\.html)?$/', $page)) {
-
   function render($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
     global $baseUrl;
