@@ -55,8 +55,8 @@ At this point we are pretty much ready to go. We just need a couple more files.
    <!doctype html>
    <html>
      <head>
-       <link rel="stylesheet" href="/assets/app.css">
-       <script type="text/javascript" src="/assets/app.js"></script>
+       <link rel="stylesheet" href="{{ directory }}/assets/app.css">
+       <script type="text/javascript" src="{{ directory }}/assets/app.js"></script>
      </head>
      <body>
        <h1>index.php</h1>
@@ -69,6 +69,19 @@ At this point we are pretty much ready to go. We just need a couple more files.
    ```
 
 That should be all we need to get going. `yarn start` and visit `https://localhost:8080/pages/index.php`. Now get creating.
+
+### File naming and indexes
+You'll want to make sure that your pages all go in to a `/pages` dir (and compiled assets go into `/assets`). 
+Files in `/pages` need to have a `.twig.html` or `.php.html` extension if you want to 
+be able to make a static version of your site. Our router is set up to handle 
+these extensions just fine, but you may need to configure them in your IDE if 
+you want syntax highlighting.
+
+Files elsewhere (such as under `/src`) should not add the `.html` suffix.
+
+The router also provides basic autoindexing support by redirecting / to 
+/index.twig.html automatically but static hosting environments are unlikey to 
+support that behaviour so please use full urls in hyperlinks.   
 
 ### Drupal Integration
 
@@ -116,6 +129,24 @@ This will allow you to reference components directly from templates
 ```twig
 {% include '@components/mycomponent/mycomponent.html.twig' with {content: {arguments: 'in here'}} %}
 ```
+
+### Static builds
+You can create a static export of your application for deployment to pretty much 
+any webserver using the `deeson-static-build` script.
+
+Call it like this:
+
+`./node_modules/.bin/deeson-static-build /dir/to/output /base/url/prefix`
+
+Where `/dir/to/output` is the path where you'd like the compiled assets placed.</br>
+And `/base/url/prefix` is the path from which the site will be served.
+
+E.g. if you were hosting on https://static.example.com/our-site, then your 
+command might look like this:
+ 
+`./node_modules/.bin/deeson-static-build /var/www/vhosts/static.example.com/our-site /our-site`
+
+The second URL prefix parameter is injected into your templates as `{{ directory }}`.
 
 
 ## License
