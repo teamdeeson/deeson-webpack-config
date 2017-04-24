@@ -2,16 +2,39 @@
 $sapi = php_sapi_name();
 
 if ($sapi === 'cli') {
-  $_SERVER['DOCUMENT_ROOT'] = getcwd() . '/';
+  $docroot = getcwd() . '/';
+  $page = $argv[1];
+  $baseUrl = isset($argv[2]) ? $argv[2] : "/";
+}
+else {
+  $docroot = $_SERVER['DOCUMENT_ROOT'];
+  $page = $_SERVER['REQUEST_URI'];
+  $baseUrl = '/';
+
+  if (is_dir($docroot . $page)) {
+    // Issue a redirect rather than rewrite because other servers won't assume
+    // index.twig.html is an index file and we don't want to encourage
+    // <a href="/"… in page files.
+    $indexes = ['/index.twig.html', '/index.php.html'];
+    foreach ($indexes as $index) {
+      if (file_exists($docroot . $page . $index)) {
+        $page = rtrim($page, '/');
+        http_response_code(302);
+        header("location: $page$index");
+        exit;
+      }
+    }
+  }
+
+  if (!is_file($docroot . $page)) {
+    http_response_code(404);
+    print '<h1>404 Not Found</h1>';
+    exit;
+  }
 }
 
-if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'])) {
-  header("HTTP/1.0 404 Not Found");
-  print '<h1>404 Not Found</h1>';
-  exit;
-}
 
-if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
+if (preg_match('/\.twig(\.html)?$/', $page)) {
   require_once './vendor/autoload.php';
 
   $loader = new Twig_Loader_Filesystem('./pages/');
@@ -21,10 +44,16 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
   ]);
   $twig->addExtension(new Twig_Extension_Debug());
 
-  echo $twig->render(basename($_SERVER['SCRIPT_FILENAME']));
-} else {
+  echo $twig->render(basename($docroot . $page), [
+    'directory' => rtrim($baseUrl, '/'),
+  ]);
+}
+elseif (preg_match('/\.php(\.html)?$/', $page)) {
+
   function render($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
+    global $baseUrl;
+
     $name = str_replace('_', '-', $n);
 
     $directory = new RecursiveDirectoryIterator($_SERVER['DOCUMENT_ROOT'] . '/src/components/');
@@ -34,20 +63,24 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
 
     if (empty($files)) {
       return "<pre style='background-color: #e2e2e2; padding: 0.5em; color: #666'>missing component template '$n'</pre>";
-    } else if (count($files) > 1) {
+    }
+    elseif (count($files) > 1) {
       $r = "<pre style='background-color: #e2e2e2; padding: 0.5em; color: #666'>multiple matches for component template '$n', there can be only one.\n";
       foreach ($files as $k => $v) {
         $r .= $k . "\n";
       }
       return $r . '</pre>';
-    } else {
+    }
+    else {
       $files = array_keys($files);
       $file = array_pop($files);
     }
 
     ob_start();
-
-    $content = $content['content'];
+    extract([
+      'content' => $content['content'],
+      'directory' => rtrim($baseUrl, '/'),
+    ]);
     include $file;
 
     $out = ob_get_contents();
@@ -55,5 +88,9 @@ if (preg_match('/\.(?:twig)$/', $_SERVER["REQUEST_URI"])) {
 
     return $out;
   }
-  return false;
+
+  include ltrim($page, '/');
+}
+else {
+  return FALSE;
 }
