@@ -65,15 +65,36 @@ const config = {
         ]),
       },
       {
+        issuer: /\.scss$/,
         test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 1000,
-              hash: 'sha512',
-              digest: 'hex',
-              name: '[hash].[ext]',
+              name: '[path][name].[ext]',
+              context: 'src',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              pngquant: { quality: '65-90', speed: 4 },
+              mozjpeg: { progressive: true },
+              gifsicle: { interlaced: false },
+            },
+          },
+        ],
+      },
+      {
+        issuer: {exclude: /\.scss$/},
+        test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              context: 'src',
             },
           },
           {
