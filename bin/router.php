@@ -33,7 +33,6 @@ else {
   }
 }
 
-
 if (preg_match('/\.twig(\.html)?$/', $page)) {
   require_once './vendor/autoload.php';
 
@@ -49,14 +48,13 @@ if (preg_match('/\.twig(\.html)?$/', $page)) {
   }));
 
   echo $twig->render(basename($docroot . $page), [
-    'directory' => rtrim($baseUrl, '/'),
+    'directory' => '',
+    'base_path' => rtrim($baseUrl, '/'),
   ]);
 }
 elseif (preg_match('/\.php(\.html)?$/', $page)) {
   function render($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
-    global $baseUrl;
-
     $name = str_replace('_', '-', $n);
 
     $directory = new RecursiveDirectoryIterator($_SERVER['DOCUMENT_ROOT'] . '/src/components/');
@@ -79,20 +77,23 @@ elseif (preg_match('/\.php(\.html)?$/', $page)) {
       $file = array_pop($files);
     }
 
-    ob_start();
-    extract([
+    return theme_render_template($file, [
       'content' => $content['content'],
-      'directory' => rtrim($baseUrl, '/'),
     ]);
-    include $file;
-
-    $out = ob_get_contents();
-    ob_end_clean();
-
-    return $out;
   }
 
-  include ltrim($page, '/');
+  function theme_render_template($file, $variables = []) {
+    $variables += [
+      'directory' => '',
+      'base_path' => rtrim($GLOBALS['baseUrl'], '/'),
+    ];
+    ob_start();
+    extract($variables, EXTR_SKIP);
+    include $file;
+    return ob_get_clean();
+  }
+
+  echo theme_render_template(ltrim($page, '/'));
 }
 else {
   return FALSE;

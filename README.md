@@ -130,6 +130,46 @@ This will allow you to reference components directly from templates
 {% include '@components/mycomponent/mycomponent.html.twig' with {content: {arguments: 'in here'}} %}
 ```
 
+### Referencing images from templates and styles
+For the examples below, assume a component tree like this one:
+```
+src/
+├── app.js
+└── components
+    └── someComponent
+        ├── index.js
+        ├── index.scss
+        ├── some-component.html.twig
+        ├── large-image.jpg
+        └── small-image.svg
+```
+
+#### …from SASS
+Referencing images from SASS is handled automatically. You can reference images from the relative path to your SASS file.
+So in the above example, from index.scss you could reference `small-image.svg` with a rule like this one:
+ 
+```
+div {
+  background: url('./small-image.svg');
+}
+```
+
+Small images (at time of writing the actual limit is  below 1000 bytes) will be inlined as a data url.
+Larger files are emitted to the assets directory with the url reference being maintained.
+ 
+#### …from a template
+Referencing images from the template is a little more complicated because Webpack cannot interpret the twig and php files we create.
+To reference an image from a template you'll have to do two things:
+
+1. `import` the file. So in `index.js`, you would have a line that looked like `import "./large-image.jpg"`.
+  
+2. In the template itself, use an absolute path, prefixed with `{{ base_path }}{{ directory }}/assets/`. 
+So to reference `large-image.jpg` from above you would have something like this:
+`<img src="{{ base_path }}{{ directory }}/assets/components/someComponent/large-image.jpg" />`
+
+Both Drupal 7 and 8 can provide these variables, so for 7 you can replace with 
+`<?php print $base_path . $directory; ?>`.
+
 ### Static builds
 You can create a static export of your application for deployment to pretty much 
 any webserver using the `deeson-static-build` script.

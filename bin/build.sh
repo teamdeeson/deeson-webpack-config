@@ -25,6 +25,6 @@ for p in $PAGES; do
 done;
 
 >&2 echo Running webpack...
-$WEBPACKCMD --output-path=$OUTDIR/assets
+$WEBPACKCMD --output-path=$OUTDIR/assets/ --output-public-path=$BASE_URL/assets/
 
 echo Done. Pages are stored in $OUTDIR/ and should be accessed from yourdomain.example.com$BASE_URL
