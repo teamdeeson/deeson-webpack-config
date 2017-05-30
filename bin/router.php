@@ -55,6 +55,7 @@ if (preg_match('/\.twig(\.html)?$/', $page)) {
 }
 elseif (preg_match('/\.php(\.html)?$/', $page)) {
   function render($t) { return $t; }
+  function url($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
     $name = str_replace('_', '-', $n);
 
