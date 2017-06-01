@@ -6,7 +6,8 @@ then
     exit 1
 fi
 
-PAGES=./pages/*
+PAGES=`find ./pages/ -type f`
+DIRS=`find ./pages/ -type d`
 OUTDIR=$1
 BASE_URL=$2
 
@@ -18,10 +19,17 @@ fi
 
 mkdir -p $OUTDIR;
 
+for d in $DIRS; do
+  [ -d $OUTDIR/${d#./pages/} ] || mkdir -p $OUTDIR/${d#./pages/}
+done;
+
 for p in $PAGES; do
-    fbname=$(basename "$p")
-    >&2 echo Generating: $fbname
-    php ./node_modules/.bin/deeson-router-php $p $BASE_URL > $OUTDIR/$fbname
+    if [[ $p =~ .*php$ || $p =~ .*twig$ ]]; then
+      >&2 echo -e "\033[0;31mNot generating $p, you need to make it end in .html ($p.html)\033[0;0m"
+    else
+      >&2 echo -e "\033[0;32mGenerating: $p\033[0;0m"
+      php ./node_modules/.bin/deeson-router-php $p $BASE_URL > $OUTDIR/${p#./pages/}
+    fi
 done;
 
 >&2 echo Running webpack...

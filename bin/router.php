@@ -57,9 +57,10 @@ elseif (preg_match('/\.php(\.html)?$/', $page)) {
   function render($t) { return $t; }
   function url($t) { return $t; }
   function theme($n, $content = ['content'=>[]]) {
+    global $docroot;
     $name = str_replace('_', '-', $n);
 
-    $directory = new RecursiveDirectoryIterator($_SERVER['DOCUMENT_ROOT'] . '/src/components/');
+    $directory = new RecursiveDirectoryIterator($docroot . '/src/components/');
     $iterator = new RecursiveIteratorIterator($directory);
     $regex = new RegexIterator($iterator, '/.*\/' . $name . '\.tpl.php$/i', RecursiveRegexIterator::GET_MATCH);
     $files = iterator_to_array($regex);
