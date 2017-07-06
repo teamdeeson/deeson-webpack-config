@@ -13,10 +13,7 @@
     "deeson-generate-component": "./bin/generate.sh",
     "deeson-static-build": "./bin/build.sh"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/deesongroup6346/deeson-webpack-config-starter.git"
-  },
+  "repository": "github:teamdeeson/deeson-webpack-config",
   "dependencies": {
     "autoprefixer": "^6.6.1",
     "babel-core": "^6.21.0",
