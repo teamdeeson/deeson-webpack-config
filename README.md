@@ -1,26 +1,38 @@
-# Deeson frontend tooling (working title)
+# Deeson frontend tooling
 
-This project pulls together our evolving frontend toolkit into one (yarn|npm)able module.
+This project pulls together our frontend toolkit into one (yarn|npm)able module.
 
-## Getting Started
+## How and Why
 
-To add useful things we can all benefit from just fork and add away.
+Deeson wants to develop frontend reasonably independently from any CMS, such as Drupal, and practice Component Driven Frontend Development.
+
+A component is a collection of HTML, CSS and JS that goes together to form some display element. Consider this against a more traditional approach where HTML, CSS and JS are stored in separate global files, for example, in a global style.css and app.js files. By grouping code together into components, we separate our application by the domain language, rather than arbitrarily by file extension. This isolates components and makes them easier to develop and maintain.
+
+The output of our frontend development will include a style guide which will render each of our components without Drupal. 
+
+Style guides are useful as they demonstrate the components independently of the specific implementation. This allows more rapid frontend development as frontend developers can work without having to worry about how the backend will integrate.
+
+Typically however, these style guides quickly get out of sync with the applications they were developed for. The Drupal developer must later integrate the HTML produced into the finished site which has meant copying and pasting code out of the style guide templates and into Drupal templates. At this point we have duplication of code and the ability to maintain a strict style guide is lost. When the style guide is updated, all Drupal templates affected must be identified and updated as well. 
+
+Our approach makes the style guide a living style guide. We use TWIG as the HTML template for our components meaning that our twig templates inside our frontend component code are the exact same ones that Drupal will be using within the theme. Frontend developers can make changes to it knowing that those changes will flow through into the application without need for a second step.  This does mean that Drupal developers often have to modify the templates to work exactly as Drupal expects but that’s fine and keeps the templates in sync with both frontend and backend.
 
 ### Prerequisites
 
-If you want to build components and arn't too worried about the drupal integration bit then you'll need :
+You will need to have the following tools installed locally. If you are on a Mac then we recommend installing them using [Homebrew](https://brew.sh/) where available
 
-* [node](https://nodejs.org) - also a fairly recent version runnable from the console
-* [npm](https://npmjs.com) or [yarn](https://yarnpkg.com) (we've been using yarn)
-* [php](https://php.net) - a fairly recent version runnable from a console
-* if you are planning on delivering components to drupal 8 you'll also need [composer](https://getcomposer.org/)
+* [node](https://nodejs.org)
+* [yarn](https://yarnpkg.com)
+* [php](https://php.net)
 
-For drupal integration you will also need :
+For Drupal 8 integration you will also need:
 
-* [drupal](drupal.org) - 7 or 8 depending on your requirements
-* a little patience
+* [composer](https://getcomposer.org/)
+
+If you are using with Drupal 8 then we recommend starting development with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). This receipe comes with our frontend preconfigured and ready to go in the `src/frontend` folder.
 
 ### Installing
+
+Not required if you are starting with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). Jump to the next section on running your frontend locally.
 
 1. Make yourself a fresh directory and `yarn init` inside it. Follow all the normal npmish instructions.
 2. `yarn add https://github.com/teamdeeson/deeson-webpack-config`
@@ -44,7 +56,7 @@ For drupal integration you will also need :
    module.exports = config;
    ```
 
-At this point we are pretty much ready to go. We just need a couple more files.
+We just need a couple more files...
 
 1. An entry point for webpack, our default is `src/app.js`
    ```javascript
@@ -68,9 +80,16 @@ At this point we are pretty much ready to go. We just need a couple more files.
    import './index.php'
    ```
 
-That should be all we need to get going. `yarn start` and visit `https://localhost:8080/pages/index.php`. Now get creating.
+### Running
+
+If you are in the root of your source code then the following commands will start the process of running your development locally. If you are using our Drupal 8 quickstart, you'll need to be in the `src/frontend` folder first:
+
+`yarn start` and visit `https://localhost:8080/pages/index.php`.
+
+Now get creating.
 
 ### File naming and indexes
+
 You'll want to make sure that your pages all go in to a `/pages` dir (and compiled assets go into `/assets`). 
 Files in `/pages` need to have a `.twig.html` or `.php.html` extension if you want to 
 be able to make a static version of your site. Our router is set up to handle 
@@ -115,7 +134,7 @@ function some_sort_of_preprocess(&$vars) {
 <?php print theme('yourcomponent', ['content'=>['arguments'=>'in here']]); ?>
 ```
 
-#### Eight only
+#### Drupal 8 
 
 We make use of the [components](https://www.drupal.org/project/components) module to set us up with a namespace to reference our components from. So once you have it installed stick something like the following in `<yourtheme>.info.yml`
 ```yml
