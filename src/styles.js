@@ -1,3 +1,4 @@
+const get = require('lodash/get');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = config => ({
@@ -5,21 +6,21 @@ module.exports = config => ({
   module: {
     ...config.module || {},
     rules: [
-      ...config.module.rules || [],
+      ...get(config, 'module.rules', []),
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract([
           {
             loader: 'css-loader',
-            options: {sourceMap: true}
+            options: { sourceMap: true },
           },
           {
             loader: 'postcss-loader',
-            options: {sourceMap: true, plugins: () => [require('autoprefixer')]}
+            options: { sourceMap: true, plugins: () => [require('autoprefixer')] },
           },
           {
             loader: 'sass-loader',
-            options: {sourceMap: true}
+            options: { sourceMap: true },
           },
         ]),
       },
@@ -28,11 +29,11 @@ module.exports = config => ({
         use: ExtractTextPlugin.extract([
           {
             loader: 'css-loader',
-            options: {sourceMap: true}
+            options: { sourceMap: true },
           },
           {
             loader: 'postcss-loader',
-            options: {sourceMap: true, plugins: () => [require('autoprefixer')]}
+            options: { sourceMap: true, plugins: () => [require('autoprefixer')] },
           },
         ]),
       },
@@ -52,16 +53,16 @@ module.exports = config => ({
           {
             loader: 'image-webpack-loader',
             options: {
-              pngquant: {quality: '65-90', speed: 4},
-              mozjpeg: {progressive: true},
-              gifsicle: {interlaced: false},
+              pngquant: { quality: '65-90', speed: 4 },
+              mozjpeg: { progressive: true },
+              gifsicle: { interlaced: false },
             },
           },
         ],
       },
 
       {
-        issuer: {exclude: /\.scss$/},
+        issuer: { exclude: /\.scss$/ },
         test: /.*\.(gif|png|jpe?g|svg)(\?v=\d+\.\d+\.\d+)?$/i,
         use: [
           {
@@ -74,9 +75,9 @@ module.exports = config => ({
           {
             loader: 'image-webpack-loader',
             options: {
-              pngquant: {quality: '65-90', speed: 4},
-              mozjpeg: {progressive: true},
-              gifsicle: {interlaced: false},
+              pngquant: { quality: '65-90', speed: 4 },
+              mozjpeg: { progressive: true },
+              gifsicle: { interlaced: false },
             },
           },
         ],

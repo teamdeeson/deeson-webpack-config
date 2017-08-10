@@ -1,9 +1,11 @@
+const get = require('lodash/get');
+
 module.exports = config => ({
   ...config,
   module: {
     ...config.module || {},
     rules: [
-      ...config.module.rules || [],
+      ...get(config, 'module.rules', []),
       {
         test: /\.js$/,
         exclude: /(node_modules)/,

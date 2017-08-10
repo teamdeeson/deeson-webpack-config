@@ -1,3 +1,4 @@
+const get = require('lodash/get');
 const DrupalTemplatePlugin = require('../drupal-templates-webpack-plugin');
 
 module.exports = config => ({
@@ -5,7 +6,7 @@ module.exports = config => ({
   module: {
     ...config.module || {},
     rules: [
-      ...config.module.rules || [],
+      ...get(config, 'module.rules', []),
       { test: /\.(tpl\.php|html\.twig)$/, loader: 'file-loader', options: { regExp: '.*/src/(.*)', name: '[1]' }, exclude: [/pages/] },
       { test: /(\.php|\.twig)$/, loader: 'file-loader', options: { name: 'pages/[name].[ext]' }, exclude: [/src/] },
     ],

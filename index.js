@@ -23,8 +23,6 @@ const config = {
     publicPath: 'needs-to-be-set',
     filename: '[name].js',
   },
-  module: {
-  },
 };
 
 module.exports = makeConfig(config);
