@@ -3,6 +3,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 module.exports = config => ({
   // TODO needs node 8.3.
   ...config,
+  devtool: '#source-map',
   devServer: {
     inline: true,
     quiet: false,
