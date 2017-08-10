@@ -207,13 +207,13 @@ Object {
     Object {
       "apply": [Function],
     },
-    DrupalHookThemeTemplatesPlugin {
-      "ignoreRegex": /\\.\\*pages\\.\\*/,
-    },
     ExtractTextPlugin {
       "filename": "[name].css",
       "id": 1,
       "options": Object {},
+    },
+    DrupalHookThemeTemplatesPlugin {
+      "ignoreRegex": /\\.\\*pages\\.\\*/,
     },
   ],
 }
