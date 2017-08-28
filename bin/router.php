@@ -15,7 +15,7 @@ else {
     // Issue a redirect rather than rewrite because other servers won't assume
     // index.twig.html is an index file and we don't want to encourage
     // <a href="/"… in page files.
-    $indexes = ['/index.twig.html', '/index.php.html'];
+    $indexes = ['index.php', '/index.twig.html', '/index.php.html'];
     foreach ($indexes as $index) {
       if (file_exists($docroot . $page . $index)) {
         $page = rtrim($page, '/');
@@ -27,8 +27,22 @@ else {
   }
 
   if (!is_file($docroot . $page)) {
+    if ($page == '/') {
+      // Top level homepage - then just send them to the pages directory which is probably a good place to start.
+      http_response_code(302);
+      header("location: /pages");
+      exit;
+    }
+
     http_response_code(404);
     print '<h1>404 Not Found</h1>';
+    print "<ul>";
+    print "<li>Could not find {$docroot}{$page}</li>";
+    print "<li>Docroot: {$docroot}</li>";
+    print "<li>Page: {$page}</li>";
+    print "</ul>";
+    print "<pre>";
+    var_dump($_ENV);
     exit;
   }
 }

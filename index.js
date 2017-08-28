@@ -22,7 +22,7 @@ const config = {
     inline: true,
     quiet: false,
     noInfo: false,
-    https: true,
+    https: false,
     stats: {
       assets: false,
       colors: true,
@@ -34,7 +34,7 @@ const config = {
     },
     proxy: {
       '*': {
-        target: 'http://localhost:3000',
+        target: 'http://fe-php',
         secure: false,
       },
     },

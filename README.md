@@ -1,106 +1,60 @@
 # Deeson frontend tooling
 
-This project pulls together our frontend toolkit into one (yarn|npm)able module.
+This project is the wiring for our frontend process.
 
-## How and Why
+This only works as part of our opinionated [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart).  This receipe comes with our frontend preconfigured and ready to go in the `src/frontend` folder.
 
-Deeson wants to develop frontend reasonably independently from any CMS, such as Drupal, and practice Component Driven Frontend Development.
+If you are new to this, then the best place to start is our [example project](https://github.com/teamdeeson/cdd-demo) you can checkout and start working with in a few short steps.
 
-A component is a collection of HTML, CSS and JS that goes together to form some display element. Consider this against a more traditional approach where HTML, CSS and JS are stored in separate global files, for example, in a global style.css and app.js files. By grouping code together into components, we separate our application by the domain language, rather than arbitrarily by file extension. This isolates components and makes them easier to develop and maintain.
+### Running under Docker
 
-The output of our frontend development will include a style guide which will render each of our components without Drupal. 
+Two Docker containers are required for this to work, one for node and one for php.
 
-Style guides are useful as they demonstrate the components independently of the specific implementation. This allows more rapid frontend development as frontend developers can work without having to worry about how the backend will integrate.
+The fe-node container comes with the yarn package manager. On startup it will check the state of your package.json file and update your node dependencies accordingly. Once finished it fires up webpack.
 
-Typically however, these style guides quickly get out of sync with the applications they were developed for. The Drupal developer must later integrate the HTML produced into the finished site which has meant copying and pasting code out of the style guide templates and into Drupal templates. At this point we have duplication of code and the ability to maintain a strict style guide is lost. When the style guide is updated, all Drupal templates affected must be identified and updated as well. 
+The fe-php container should come with composer but doesn't so it gets installed on start up. It then checks the contents of your composer.json file and installs all php dependencies accordingly. Once finished it fires up a basic PHP webserver for rendering your twig templates.
 
-Our approach makes the style guide a living style guide. We use TWIG as the HTML template for our components meaning that our twig templates inside our frontend component code are the exact same ones that Drupal will be using within the theme. Frontend developers can make changes to it knowing that those changes will flow through into the application without need for a second step.  This does mean that Drupal developers often have to modify the templates to work exactly as Drupal expects but that’s fine and keeps the templates in sync with both frontend and backend.
+```fe-node container
 
-### Prerequisites
+fe-node:
+  image: node:7
+  working_dir: /app
+  labels:
+    - 'traefik.backend=fe-node'
+    - 'traefik.port=80'
+    - 'traefik.frontend.rule=Host:frontend.localhost'
+  volumes:
+    - ./src/frontend:/app
+  command: sh -c 'yarn install && yarn start'
+```
 
-You will need to have the following tools installed locally. If you are on a Mac then we recommend installing them using [Homebrew](https://brew.sh/) where available
+```fe-php container
 
-* [node](https://nodejs.org)
-* [yarn](https://yarnpkg.com)
-* [php](https://php.net)
-
-For Drupal 8 integration you will also need:
-
-* [composer](https://getcomposer.org/)
-
-If you are using with Drupal 8 then we recommend starting development with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). This receipe comes with our frontend preconfigured and ready to go in the `src/frontend` folder.
-
-### Installing
-
-Not required if you are starting with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). Jump to the next section on running your frontend locally.
-
-1. Make yourself a fresh directory and `yarn init` inside it. Follow all the normal npmish instructions.
-2. `yarn add https://github.com/teamdeeson/deeson-webpack-config`
-3. If you are going to need twig templates (drupal 8 or any number of other setups) then you should `composer require twig/twig` too
-4. Open up your `package.json` and add the following to the `scripts` section
-   ```javascript
-   "start": "./node_modules/.bin/frontend-serve",
-   ```
-5. Make yourself a `webpack.config.js` file that looks like this
-   ```javascript
-   const config = require('deeson-webpack-config-starter');
-
-   // this should be the real asset path in drupal
-   // so something like /sites/all/themes/blah_blah/assets
-   config.output.publicPath = '/assets/';
-
-   // this is how you get auto reload happening
-   // for your pages without adding them to ./src/app.js
-   config.entry.pages = './pages/index.js';
-
-   module.exports = config;
-   ```
-
-We just need a couple more files...
-
-1. An entry point for webpack, our default is `src/app.js`
-   ```javascript
-   console.log('hello')
-   ```
-2. An index page that we can add our components to so we can make them awesome, `pages/index.php` or `pages/index.twig`.
-   ```html
-   <!doctype html>
-   <html>
-     <head>
-       <link rel="stylesheet" href="{{ directory }}/assets/app.css">
-       <script type="text/javascript" src="{{ directory }}/assets/app.js"></script>
-     </head>
-     <body>
-       <h1>index.php</h1>
-     </body>
-   </html>
-   ```
-3. Another entry point for webpack so it can watch our development pages (this is a bit of a work in progress to give us live reload), our default is `pages/index.js`.
-   ```javascript
-   import './index.php'
-   ```
-
-### Running
-
-If you are in the root of your source code then the following commands will start the process of running your development locally. If you are using our Drupal 8 quickstart, you'll need to be in the `src/frontend` folder first:
-
-`yarn start` and visit `https://localhost:8080/pages/index.php`.
-
-Now get creating.
+fe-php:
+  image: php:7
+   working_dir: /app
+   depends_on:
+    - "fe-node"
+  volumes:
+    - ./src/frontend:/app
+  command: bash -c "curl --silent --show-error https://getcomposer.org/installer | php && php composer.phar install && php -S 0.0.0.0:80 node_modules/.bin/deeson-router-php"
+```
 
 ### File naming and indexes
 
-You'll want to make sure that your pages all go in to a `/pages` dir (and compiled assets go into `/assets`). 
-Files in `/pages` need to have a `.twig.html` or `.php.html` extension if you want to 
-be able to make a static version of your site. Our router is set up to handle 
-these extensions just fine, but you may need to configure them in your IDE if 
+From your project root there should be a folder at `src/frontend` which is where your frontend code will go.
+There should be a pages directory in `src/frontend` for your static twig pages.
+There will be an assets directory in `src/frontend` which contains the compiled assets.
+Files in pages dir need to have a `.twig.html` or `.php.html` extension if you want to
+be able to make a static version of your site. Our router is set up to handle
+these extensions just fine, but you may need to configure them in your IDE if
 you want syntax highlighting.
 
 Files elsewhere (such as under `/src`) should not add the `.html` suffix.
 
-The router also provides basic autoindexing support by redirecting / to 
-/index.twig.html automatically but static hosting environments are unlikey to 
-support that behaviour so please use full urls in hyperlinks.   
+The router also provides basic autoindexing support by redirecting / to
+/index.twig.html automatically but static hosting environments are unlikey to
+support that behaviour so please use full urls in hyperlinks.
 
 ### Drupal Integration
 
@@ -134,7 +88,7 @@ function some_sort_of_preprocess(&$vars) {
 <?php print theme('yourcomponent', ['content'=>['arguments'=>'in here']]); ?>
 ```
 
-#### Drupal 8 
+#### Drupal 8
 
 We make use of the [components](https://www.drupal.org/project/components) module to set us up with a namespace to reference our components from. So once you have it installed stick something like the following in `<yourtheme>.info.yml`
 ```yml
