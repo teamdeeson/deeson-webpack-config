@@ -23,6 +23,8 @@ const config = {
     quiet: false,
     noInfo: false,
     https: false,
+    host: "0.0.0.0",
+    port: 80,
     stats: {
       assets: false,
       colors: true,
