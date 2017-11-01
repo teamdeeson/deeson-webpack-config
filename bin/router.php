@@ -8,7 +8,7 @@ if ($sapi === 'cli') {
 }
 else {
   $docroot = $_SERVER['DOCUMENT_ROOT'];
-  $page = $_SERVER['REQUEST_URI'];
+  $page = $_SERVER['SCRIPT_NAME'];
   $baseUrl = '/';
 
   if (is_dir($docroot . $page)) {
