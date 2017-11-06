@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PHPCMD='php -S 127.0.0.1:3000 ./node_modules/.bin/deeson-router-php'
-WEBPACKCMD='./node_modules/deeson-webpack-config-starter/node_modules/.bin/webpack-dev-server'
 
 if [ ! -f $WEBPACKCMD ]; then
   WEBPACKCMD='./node_modules/.bin/webpack-dev-server'
