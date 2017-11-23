@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot config 1`] = `
+Object {
+  "devServer": Object {
+    "https": true,
+    "inline": true,
+    "noInfo": false,
+    "proxy": Object {
+      "*": Object {
+        "secure": false,
+        "target": "http://localhost:3000",
+      },
+    },
+    "quiet": false,
+    "stats": Object {
+      "assets": false,
+      "chunkModules": false,
+      "chunks": false,
+      "colors": true,
+      "hash": false,
+      "timings": false,
+      "version": false,
+    },
+  },
+  "devtool": "#source-map",
+  "entry": Object {
+    "app": "./src/app.js",
+    "pages": "./pages/index.js",
+  },
+  "module": Object {
+    "rules": Array [
+      Object {
+        "exclude": /\\(node_modules\\)/,
+        "loader": "babel-loader",
+        "options": Object {
+          "presets": Array [
+            "env",
+          ],
+        },
+        "test": /\\\\\\.js\\$/,
+      },
+      Object {
+        "loader": Array [
+          Object {
+            "loader": "/Users/danj/Sites/deeson-webpack-config/node_modules/extract-text-webpack-plugin/loader.js",
+            "options": Object {
+              "omit": 0,
+              "remove": true,
+            },
+          },
+          Object {
+            "loader": "css-loader",
+            "options": Object {
+              "sourceMap": true,
+            },
+          },
+          Object {
+            "loader": "postcss-loader",
+            "options": Object {
+              "plugins": [Function],
+              "sourceMap": true,
+            },
+          },
+          Object {
+            "loader": "sass-loader",
+            "options": Object {
+              "sourceMap": true,
+            },
+          },
+        ],
+        "test": /\\\\\\.scss\\$/,
+      },
+      Object {
+        "test": /\\\\\\.css\\$/,
+        "use": Array [
+          Object {
+            "loader": "/Users/danj/Sites/deeson-webpack-config/node_modules/extract-text-webpack-plugin/loader.js",
+            "options": Object {
+              "omit": 0,
+              "remove": true,
+            },
+          },
+          Object {
+            "loader": "css-loader",
+            "options": Object {
+              "sourceMap": true,
+            },
+          },
+          Object {
+            "loader": "postcss-loader",
+            "options": Object {
+              "plugins": [Function],
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      Object {
+        "issuer": /\\\\\\.scss\\$/,
+        "test": /\\.\\*\\\\\\.\\(gif\\|png\\|jpe\\?g\\|svg\\)\\(\\\\\\?v=\\\\d\\+\\\\\\.\\\\d\\+\\\\\\.\\\\d\\+\\)\\?\\$/i,
+        "use": Array [
+          Object {
+            "loader": "url-loader",
+            "options": Object {
+              "context": "src",
+              "limit": 1000,
+              "name": "[path][name].[ext]",
+            },
+          },
+          Object {
+            "loader": "image-webpack-loader",
+            "options": Object {
+              "gifsicle": Object {
+                "interlaced": false,
+              },
+              "mozjpeg": Object {
+                "progressive": true,
+              },
+              "pngquant": Object {
+                "quality": "65-90",
+                "speed": 4,
+              },
+            },
+          },
+        ],
+      },
+      Object {
+        "issuer": Object {
+          "exclude": /\\\\\\.scss\\$/,
+        },
+        "test": /\\.\\*\\\\\\.\\(gif\\|png\\|jpe\\?g\\|svg\\)\\(\\\\\\?v=\\\\d\\+\\\\\\.\\\\d\\+\\\\\\.\\\\d\\+\\)\\?\\$/i,
+        "use": Array [
+          Object {
+            "loader": "file-loader",
+            "options": Object {
+              "context": "src",
+              "name": "[path][name].[ext]",
+            },
+          },
+          Object {
+            "loader": "image-webpack-loader",
+            "options": Object {
+              "gifsicle": Object {
+                "interlaced": false,
+              },
+              "mozjpeg": Object {
+                "progressive": true,
+              },
+              "pngquant": Object {
+                "quality": "65-90",
+                "speed": 4,
+              },
+            },
+          },
+        ],
+      },
+      Object {
+        "exclude": Array [
+          /pages/,
+        ],
+        "loader": "file-loader",
+        "options": Object {
+          "name": "[1]",
+          "regExp": ".*/src/(.*)",
+        },
+        "test": /\\\\\\.\\(tpl\\\\\\.php\\|html\\\\\\.twig\\)\\$/,
+      },
+      Object {
+        "exclude": Array [
+          /src/,
+        ],
+        "loader": "file-loader",
+        "options": Object {
+          "name": "pages/[name].[ext]",
+        },
+        "test": /\\(\\\\\\.php\\|\\\\\\.twig\\)\\$/,
+      },
+      Object {
+        "loader": "file-loader",
+        "test": /\\\\\\.eot\\(\\\\\\?v=\\\\d\\+\\\\\\.\\\\d\\+\\\\\\.\\\\d\\+\\)\\?\\$/,
+      },
+      Object {
+        "loader": "url-loader",
+        "options": Object {
+          "limit": 5000,
+          "prefix": "font/",
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\)\\$/,
+      },
+      Object {
+        "loader": "url-loader",
+        "options": Object {
+          "limit": 10000,
+          "mimetype": "application/octet-stream",
+        },
+        "test": /\\\\\\.\\[ot\\]tf\\(\\\\\\?v=\\\\d\\+\\\\\\.\\\\d\\+\\\\\\.\\\\d\\+\\)\\?\\$/,
+      },
+    ],
+  },
+  "output": Object {
+    "filename": "[name].js",
+    "path": "/Users/danj/Sites/deeson-webpack-config/assets",
+    "publicPath": "needs-to-be-set",
+  },
+  "plugins": Array [
+    Object {
+      "apply": [Function],
+    },
+    ExtractTextPlugin {
+      "filename": "[name].css",
+      "id": 1,
+      "options": Object {},
+    },
+    DrupalHookThemeTemplatesPlugin {
+      "ignoreRegex": /\\.\\*pages\\.\\*/,
+    },
+  ],
+}
+`;
