@@ -76,14 +76,6 @@ const config = {
               context: 'src',
             },
           },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              pngquant: { quality: '65-90', speed: 4 },
-              mozjpeg: { progressive: true },
-              gifsicle: { interlaced: false },
-            },
-          },
         ],
       },
       {
@@ -95,14 +87,6 @@ const config = {
             options: {
               name: '[path][name].[ext]',
               context: 'src',
-            },
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              pngquant: { quality: '65-90', speed: 4 },
-              mozjpeg: { progressive: true },
-              gifsicle: { interlaced: false },
             },
           },
         ],
