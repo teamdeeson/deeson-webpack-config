@@ -42,7 +42,6 @@
     "write-file-webpack-plugin": "^3.4.2"
   },
   "devDependencies": {
-    "jest": "^19.0.2",
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
