@@ -15,7 +15,7 @@ else {
     // Issue a redirect rather than rewrite because other servers won't assume
     // index.twig.html is an index file and we don't want to encourage
     // <a href="/"… in page files.
-    $indexes = ['index.php', 'index.twig.html', 'index.php.html'];
+    $indexes = ['/index.php', '/index.twig.html', '/index.php.html'];
     foreach ($indexes as $index) {
       if (file_exists($docroot . $page . $index)) {
         $page = rtrim($page, '/');
