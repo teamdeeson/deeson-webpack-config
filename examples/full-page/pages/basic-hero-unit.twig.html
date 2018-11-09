@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ directory }}/assets/app.css">
+    <script type="text/javascript" src="{{ directory }}/assets/app.js"></script>
+  </head>
+  <body>
+  {% include '@components/basicHeroUnit/basicHeroUnit.html.twig' with {
+    body: 'Hello. This is a Basic Component'
+  } %}
+  </body>
+</html>
