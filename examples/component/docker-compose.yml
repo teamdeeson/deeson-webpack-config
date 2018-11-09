@@ -13,7 +13,7 @@ services:
       - default
       - proxy
     labels:
-      - 'traefik.backend=fe-node'
+      - 'traefik.docker.network=proxy'
       - 'traefik.port=80'
       - 'traefik.frontend.rule=Host:frontend.localhost'
 
