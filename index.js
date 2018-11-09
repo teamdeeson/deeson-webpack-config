@@ -112,6 +112,8 @@ if (typeof process.env.DOCKER_LOCAL !== 'undefined' && process.env.DOCKER_LOCAL 
     config.devServer.https = false;
     config.devServer.disableHostCheck = true;
     config.devServer.proxy['*'].target = 'http://fe-php:80';
+    config.watchOptions = config.watchOptions || {};
+    config.watchOptions.poll = 1000;
 }
 
 module.exports = config;
