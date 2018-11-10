@@ -16,23 +16,21 @@ Typically however, these style guides quickly get out of sync with the applicati
 
 Our approach makes the style guide a living style guide. We use TWIG as the HTML template for our components meaning that our twig templates inside our frontend component code are the exact same ones that Drupal will be using within the theme. Frontend developers can make changes to it knowing that those changes will flow through into the application without need for a second step.  This does mean that Drupal developers often have to modify the templates to work exactly as Drupal expects but that’s fine and keeps the templates in sync with both frontend and backend.
 
-### Prerequisites
+### Explain modes of operation here.
 
-You will need to have the following tools installed locally. If you are on a Mac then we recommend installing them using [Homebrew](https://brew.sh/) where available
+Explain modes of operation here.
+
+### Running the tools locally
+
+#### Prerequisites
+
+You will need to have the following tools installed locally.
 
 * [node](https://nodejs.org)
 * [yarn](https://yarnpkg.com)
 * [php](https://php.net)
 
-For Drupal 8 integration you will also need:
-
-* [composer](https://getcomposer.org/)
-
-If you are using with Drupal 8 then we recommend starting development with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). This receipe comes with our frontend preconfigured and ready to go in the `src/frontend` folder.
-
-### Installing
-
-Not required if you are starting with our [Drupal 8 quickstart recipe](https://github.com/teamdeeson/d8-quickstart). Jump to the next section on running your frontend locally.
+#### Installing
 
 1. Make yourself a fresh directory and `yarn init` inside it. Follow all the normal npmish instructions.
 2. `yarn add https://github.com/teamdeeson/deeson-webpack-config`
@@ -80,13 +78,27 @@ We just need a couple more files...
    import './index.php'
    ```
 
-### Running
+#### Running
 
 If you are in the root of your source code then the following commands will start the process of running your development locally. If you are using our Drupal 8 quickstart, you'll need to be in the `src/frontend` folder first:
 
 `yarn start` and visit `https://localhost:8080/pages/index.php`.
 
 Now get creating.
+
+### Running under Docker
+
+#### Prerequisites
+
+Explain prerequisites here.
+
+#### Configuring
+
+Explain docker-compose.yml configuration here.
+
+#### Running
+
+Explain running under Docker here.
 
 ### File naming and indexes
 
@@ -106,7 +118,7 @@ support that behaviour so please use full urls in hyperlinks.
 
 Our webpack [plugin](https://webpack.js.org/concepts/plugins/) keeps track of all our template related files during build and outputs a bit of php at the end that lets us do the following.
 
-#### Seven and Eight
+#### Drupal Seven and Drupal Eight
 
 Inside of a themes `template.php` for 7 and `<theme>.theme` for 8 (and assuming you output assets to /assets/)
 ```php
@@ -134,7 +146,7 @@ function some_sort_of_preprocess(&$vars) {
 <?php print theme('yourcomponent', ['content'=>['arguments'=>'in here']]); ?>
 ```
 
-#### Drupal 8 
+#### Drupal 8 only
 
 We make use of the [components](https://www.drupal.org/project/components) module to set us up with a namespace to reference our components from. So once you have it installed stick something like the following in `<yourtheme>.info.yml`
 ```yml
@@ -207,6 +219,9 @@ command might look like this:
 
 The second URL prefix parameter is injected into your templates as `{{ directory }}`.
 
+### Examples
+
+Explain examples here
 
 ## License
 
