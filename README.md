@@ -16,9 +16,10 @@ Typically however, these style guides quickly get out of sync with the applicati
 
 Our approach makes the style guide a living style guide. We use TWIG as the HTML template for our components meaning that our twig templates inside our frontend component code are the exact same ones that Drupal will be using within the theme. Frontend developers can make changes to it knowing that those changes will flow through into the application without need for a second step.  This does mean that Drupal developers often have to modify the templates to work exactly as Drupal expects but that’s fine and keeps the templates in sync with both frontend and backend.
 
-### Explain modes of operation here.
+### Running locally and running under Docker
 
-Explain modes of operation here.
+The toolkit can be ran locally via Node and Yarn or under Docker.
+You can find setup notes for both here.
 
 ### Running the tools locally
 
@@ -90,15 +91,63 @@ Now get creating.
 
 #### Prerequisites
 
-Explain prerequisites here.
+You will need to have the following tools installed locally.
+
+* [Docker](https://www.docker.com/get-started)
+* [Docker Proxy](https://github.com/teamdeeson/docker-proxy)
 
 #### Configuring
 
-Explain docker-compose.yml configuration here.
+Two Docker containers are required for this to work, one for node and one for php.
+
+The fe-node container comes with the yarn package manager. On startup it will check the state of your package.json file and update your node dependencies accordingly. Once finished it fires up webpack.
+
+The fe-php container should come with composer but doesn't so it gets installed on start up. It then checks the contents of your composer.json file and installs all php dependencies accordingly. Once finished it fires up a basic PHP webserver for rendering your twig templates.
+
+```fe-node container
+fe-node:
+  image: deeson/fe-node
+  volumes:
+    - .:/app:delegated
+  working_dir: /app
+  environment:
+    DOCKER_LOCAL: 1
+  command: sh -c 'yarn install && yarn start'
+  networks:
+    - default
+    - proxy
+  labels:
+    - 'traefik.docker.network=proxy'
+    - 'traefik.port=80'
+    - 'traefik.frontend.rule=Host:frontend.localhost'
+```
+
+```fe-php container
+fe-php:
+  image: deeson/fe-php
+  depends_on:
+    - 'fe-node'
+  volumes:
+    - .:/app:delegated
+  working_dir: /app
+  environment:
+    DOCKER_LOCAL: 1
+  command: sh -c 'composer install && node_modules/.bin/deeson-router-start.sh'
+  networks:
+    - default
+```
+
+```proxy network
+networks:
+  proxy:
+    external: true
+```
 
 #### Running
 
-Explain running under Docker here.
+Using a terminal navigate to the location of your `docker-compose.yml` file and execute `docker-compose up -d`.
+
+When the containers have fully loaded you will be able to access your frontend pages via a web browser at `https://frontend.localhost/pages/`.
 
 ### File naming and indexes
 
