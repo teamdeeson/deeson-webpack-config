@@ -13,17 +13,10 @@
 
 <body>
   <div class="container">
-    <h1>Components and Full Page example</h1>
-    <p>Example pages</p>
-    <ul>
-      <li><a href="full-page.twig.html">Full page</a></li>
-    </ul>
-    <p>Example components</p>
-    <ul>
-      <li><a href="basic-header.twig.html">Basic header</a></li>
-      <li><a href="basic-footer.twig.html">Basic footer</a></li>
-      <li><a href="basic-feature.twig.html">Basic feature</a></li>
-    </ul>
+    <h1>Basic feature</h1>
+    {% include '@components/basicFeature/basicFeature.html.twig' with {
+      body: 'Hello. This is a Basic Component'
+    } %}
   </div>
 </body>
 </html>
