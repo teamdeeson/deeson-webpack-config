@@ -104,7 +104,7 @@ The fe-node container comes with the yarn package manager. On startup it will ch
 
 The fe-php container should come with composer but doesn't so it gets installed on start up. It then checks the contents of your composer.json file and installs all php dependencies accordingly. Once finished it fires up a basic PHP webserver for rendering your twig templates.
 
-```fe-node container
+```yaml
 fe-node:
   image: deeson/fe-node
   volumes:
@@ -122,7 +122,7 @@ fe-node:
     - 'traefik.frontend.rule=Host:frontend.localhost'
 ```
 
-```fe-php container
+```yaml
 fe-php:
   image: deeson/fe-php
   depends_on:
@@ -137,7 +137,7 @@ fe-php:
     - default
 ```
 
-```proxy network
+```yaml
 networks:
   proxy:
     external: true
