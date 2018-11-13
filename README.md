@@ -270,7 +270,7 @@ The second URL prefix parameter is injected into your templates as `{{ directory
 
 ### Examples
 
-Explain examples here
+Examples showing the basic configuration, a simple component and a multi-component page can be found in the `examples` subdirectory.
 
 ## License
 
