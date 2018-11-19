@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jumbotron Template for Bootstrap</title>
+  <link rel="stylesheet" href="{{ directory }}/assets/app.css">
+  <script type="text/javascript" src="{{ directory }}/assets/app.js"></script>
+</head>
+
+<body>
+{% include '@components/basicHeader/basicHeader.html.twig' with {
+  body: 'Hello. This is a Basic Component'
+} %}
+
+<div class="container">
+  <div class="row">
+    {% include '@components/basicFeature/basicFeature.html.twig' with {
+      body: 'Hello. This is a Basic Component'
+    } %}
+
+    {% include '@components/basicFeature/basicFeature.html.twig' with {
+      body: 'Hello. This is a Basic Component'
+    } %}
+
+    {% include '@components/basicFeature/basicFeature.html.twig' with {
+      body: 'Hello. This is a Basic Component'
+    } %}
+  </div>
+
+  {% include '@components/basicFooter/basicFooter.html.twig' with {
+    body: 'Hello. This is a Basic Component'
+  } %}
+</div> <!-- /container -->
+</body>
+</html>

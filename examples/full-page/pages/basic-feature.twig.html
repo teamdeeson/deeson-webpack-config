@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Components and Full Page example</title>
+  <link rel="stylesheet" href="{{ directory }}/assets/app.css">
+  <script type="text/javascript" src="{{ directory }}/assets/app.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Basic feature</h1>
+    {% include '@components/basicFeature/basicFeature.html.twig' with {
+      body: 'Hello. This is a Basic Component'
+    } %}
+  </div>
+</body>
+</html>

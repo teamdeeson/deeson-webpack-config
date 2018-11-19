@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  fe-node:
+    image: deeson/fe-node
+    volumes:
+      - .:/app:delegated
+    working_dir: /app
+    environment:
+      DOCKER_LOCAL: 1
+    command: sh -c 'yarn install && yarn start'
+    networks:
+      - default
+      - proxy
+    labels:
+      - 'traefik.docker.network=proxy'
+      - 'traefik.port=80'
+      - 'traefik.frontend.rule=Host:frontend.localhost'
+
+  fe-php:
+    image: deeson/fe-php
+    depends_on:
+      - 'fe-node'
+    volumes:
+      - .:/app:delegated
+    working_dir: /app
+    environment:
+      DOCKER_LOCAL: 1
+    command: sh -c 'composer install && node_modules/.bin/deeson-router-start.sh'
+    networks:
+      - default
+
+networks:
+  proxy:
+    external: true
