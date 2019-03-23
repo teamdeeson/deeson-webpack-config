@@ -1,6 +1,4 @@
-// const config = require('deeson-webpack-config-starter');
 const webpack = require('webpack');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const DrupalTemplatePlugin = require('./drupal-templates-webpack-plugin');
@@ -38,7 +36,7 @@ const config = {
       '*': {
         target: 'http://localhost:3000',
         secure: false
-        }
+      }
     }
   },
   module: {
@@ -62,10 +60,10 @@ const config = {
       },
       {
         test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            { loader: 'css-loader', options: { sourceMap: true } },
-            { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [ require('autoprefixer') ] } }
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [ require('autoprefixer') ] } }
         ],
       },
       {
@@ -97,7 +95,7 @@ const config = {
       },
       { test: /\.(tpl\.php|html\.twig)$/, loader: 'file-loader', options: { regExp: '.*/src/(.*)', name: '[1]' }, exclude: [/pages/] },
       // { test: /(\.php|\.twig|\.twig\.html)$/, loader: 'file-loader', options: { name: 'pages/[name].[ext]' }, exclude: [/src/] },
-      //
+
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       { test: /\.(woff|woff2)$/, loader: 'url-loader', options: { prefix: 'font/', limit: 5000 } },
       { test: /\.[ot]tf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/octet-stream' } },
@@ -106,7 +104,6 @@ const config = {
   plugins: [
     new WriteFilePlugin({ log: false }),
     new DrupalTemplatePlugin({ ignore: /.*pages.*/ }),
-    // new ExtractTextPlugin('[name].css')
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional

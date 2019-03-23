@@ -8,47 +8,47 @@ process.noDeprecation = true;
 const path = require('path');
 
 const config = {
-    entry: {
-        app: './src/app.js',
-        pages: './pages/index.js',
+  entry: {
+    app: './src/app.js',
+    pages: './pages/index.js',
+  },
+  devtool: '#source-map',
+  output: {
+    path: path.resolve(process.cwd(), 'assets'),
+    publicPath: 'needs-to-be-set',
+    filename: '[name].js',
+  },
+  devServer: {
+    inline: true,
+    quiet: false,
+    noInfo: false,
+    https: true,
+    stats: {
+      assets: false,
+      colors: true,
+      version: false,
+      hash: false,
+      timings: false,
+      chunks: false,
+      chunkModules: false,
     },
-    devtool: '#source-map',
-    output: {
-        path: path.resolve(process.cwd(), 'assets'),
-        publicPath: 'needs-to-be-set',
-        filename: '[name].js',
+    proxy: {
+      '*': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
     },
-    devServer: {
-        inline: true,
-        quiet: false,
-        noInfo: false,
-        https: true,
-        stats: {
-            assets: false,
-            colors: true,
-            version: false,
-            hash: false,
-            timings: false,
-            chunks: false,
-            chunkModules: false,
-        },
-        proxy: {
-            '*': {
-                target: 'http://localhost:3000',
-                secure: false,
-            },
-        },
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['env'],
-                },
-            },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['env']
+        }
+      },
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract([
