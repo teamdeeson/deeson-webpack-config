@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PHPCMD='./node_modules/.bin/deeson-router-start.sh'
-WEBPACKCMD='./node_modules/deeson-webpack-config-starter/node_modules/.bin/webpack-dev-server'
+PHPCMD='./bin/deeson-router-start.sh'
+WEBPACKCMD='./node_modules/.bin/webpack-dev-server'
 
 if [ ! -f $WEBPACKCMD ]; then
   WEBPACKCMD='./node_modules/.bin/webpack-dev-server'
