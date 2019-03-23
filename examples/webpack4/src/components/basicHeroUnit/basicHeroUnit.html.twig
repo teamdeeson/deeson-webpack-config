@@ -1,0 +1,15 @@
+{#
+
+variables :
+  - body: The text to appear in the hero unit.
+
+example :
+
+{% include '@components/basicHeroUnit/basicHeroUnit.html.twig' with {
+  body: 'Hello. This is a Basic Component',
+} %}
+
+#}
+<div class="basic-hero-unit">
+    {{ body }}
+</div>
