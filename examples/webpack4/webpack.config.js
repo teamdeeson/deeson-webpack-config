@@ -10,7 +10,9 @@ const DrupalTemplatePlugin = require('./drupal-templates-webpack-plugin');
 const path = require('path');
 
 const config = {
-  entry: './src/app.js',
+  entry: {
+    app: './src/app.js'
+  },
   mode: 'development',
   devtool: '#source-map',
   output: {
