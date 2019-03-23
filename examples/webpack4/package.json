@@ -18,6 +18,7 @@
   "repository": "github:teamdeeson/deeson-webpack-config",
   "dependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "autoprefixer": "^9.5.0",
     "babel-core": "^6.21.0",
     "babel-loader": "^8.0.5",
