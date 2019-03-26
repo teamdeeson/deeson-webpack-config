@@ -2,7 +2,7 @@ version: "3"
 
 services:
   fe-node:
-    image: deeson/fe-node
+    image: deeson/fe-node:v10
     volumes:
       - .:/app:delegated
     working_dir: /app

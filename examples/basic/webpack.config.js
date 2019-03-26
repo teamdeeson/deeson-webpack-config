@@ -6,6 +6,6 @@ config.output.publicPath = '/assets/';
 
 // this is how you get auto reload happening
 // for your pages without adding them to ./src/app.js
-config.entry.pages = './pages/index.js';
+// config.entry.pages = './pages/index.js';
 
 module.exports = config;

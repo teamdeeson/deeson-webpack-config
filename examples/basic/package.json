@@ -7,6 +7,6 @@
     "start": "./node_modules/.bin/frontend-serve"
   },
   "dependencies": {
-    "deeson-webpack-config-starter": "https://github.com/adam-dg/deeson-webpack-config"
+    "deeson-webpack-config-starter": "https://github.com/adam-dg/deeson-webpack-config.git#webpack4"
   }
 }
