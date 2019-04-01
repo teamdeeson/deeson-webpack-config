@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
-    "deeson-webpack-config-starter": "https://github.com/adam-dg/deeson-webpack-config"
+    "deeson-webpack-config-starter": "https://github.com/adam-dg/deeson-webpack-config.git#webpack4"
   }
 }
