@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
 PHPCMD='./node_modules/.bin/deeson-router-start.sh'
-WEBPACKCMD='./node_modules/deeson-webpack-config-starter/node_modules/.bin/webpack-dev-server'
-
-if [ ! -f $WEBPACKCMD ]; then
-  WEBPACKCMD='./node_modules/.bin/webpack-dev-server'
-fi
+WEBPACKCMD='./node_modules/.bin/webpack-dev-server'
 
 if [ "${DOCKER_LOCAL}" != "1" ]; then
   PIDS=$(lsof -t -i tcp:3000 -i tcp:8080 -s tcp:LISTEN)
