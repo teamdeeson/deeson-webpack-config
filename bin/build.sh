@@ -11,11 +11,7 @@ DIRS=`find ./pages/ -type d`
 OUTDIR=$1
 BASE_URL=$2
 
-WEBPACKCMD='./node_modules/deeson-webpack-config-starter/node_modules/.bin/webpack'
-
-if [ ! -f $WEBPACKCMD ]; then
-  WEBPACKCMD='./node_modules/.bin/webpack'
-fi
+WEBPACKCMD='./node_modules/.bin/webpack'
 
 mkdir -p $OUTDIR;
 
