@@ -27,7 +27,7 @@
     "prettier": "^1.18.2"
   },
   "peerDependencies": {
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-cli": "^4.5.0", 
+    "webpack-dev-server": "^3.11.2"
   }
 }
