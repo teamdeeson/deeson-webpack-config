@@ -24,7 +24,7 @@ class DrupalHookThemeTemplatesPlugin {
         Object.keys(assets).forEach((k) => {
           if (this.ignoreRegex.test(k)) delete assets[k];
         });
-    
+
         compilation.modules.forEach((module) => {
           if (module.resource && !this.ignoreRegex.test(module.resource)) {
             const file = path.basename(module.resource);
@@ -41,7 +41,7 @@ class DrupalHookThemeTemplatesPlugin {
             }
           }
         });
-    
+
         const entry = t => `
         "${t.name}" => [
           "template" => "${t.template}",
@@ -52,10 +52,7 @@ class DrupalHookThemeTemplatesPlugin {
         const strungTwigs = twigs.map(entry);
         const assetPath = compiler.options.output.publicPath.replace(/^\/(.*)\/$/, '$1');
         const exists = compilation.getAsset('component-templates.php');
-    
-        console.log("Emitting asset");
-        console.log(strungTwigs);
-  
+
         if (strungTwigs.length || strungTpls.length) {
           const source = new sources.RawSource(
             `<?php /* Generated file, dont monkey. */
