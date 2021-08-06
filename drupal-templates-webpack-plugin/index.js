@@ -8,6 +8,7 @@ const ID = 'deeson:tpls';
 class DrupalHookThemeTemplatesPlugin {
   constructor(options = {}) {
     this.ignoreRegex = options.ignore || /[^.*]/;
+    this.srcPath = options.srcPath || 'src';
   }
 
   // Define `apply` as its prototype method which is supplied with compiler as its argument
@@ -28,7 +29,8 @@ class DrupalHookThemeTemplatesPlugin {
         compilation.modules.forEach((module) => {
           if (module.resource && !this.ignoreRegex.test(module.resource)) {
             const file = path.basename(module.resource);
-            const cpath = path.dirname(module.resource.replace(/.*\/src\//, '/'));
+            const re = new RegExp('.*\/' + this.srcPath + '\/');
+            const cpath = path.dirname(module.resource.replace(re, '/'));
             const template = file.replace(/\.(tpl\.php|html\.twig)$/, '');
             const name = template.replace(/-/g, '_');
     
