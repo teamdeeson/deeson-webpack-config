@@ -96,7 +96,7 @@ elseif (preg_match('/\.php(\.html)?$/', $page)) {
     return ob_get_clean();
   }
 
-  echo theme_render_template(ltrim($page, '/'));
+  echo theme_render_template($docroot . $page);
 }
 else {
   return FALSE;
